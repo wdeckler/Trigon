@@ -1,0 +1,11 @@
+* { color: #EBDFA2; font-size: 16pt; }
+body 
+{ background-color: #201C2F; }
+h1 { font-size: 24pt; }
+input { color: #201C2F; }
+input[type=number] { width: 3em; }
+canvas 
+{ 
+	background-color: #eeeeee;
+	width: 75%;
+}
