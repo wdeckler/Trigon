@@ -1,11 +1,11 @@
 const PI = Math.PI, PI2 = PI * 2;
-const H = 500, W = 500;
-const PREC = 4;
+const H = 500, W = 500; // height, width of canvas
+const PREC = 4; // number display precicion
 
 const x_center = W / 2, y_center = H / 2;
 
-var can = null;
-var dc = null;
+var can = null; // canvas object
+var dc = null; // drawing context
 
 var degs = 0.0, rads = 0.0, grad;
 
@@ -84,19 +84,29 @@ function init()
 	A_edt = document.getElementById("A_edt");
 	A_edt.onchange = function(e)
 	{
-		setSide(e.target.id);
+		A = A_edt.value;
+		
+		rads = Math.asin(A/C);
+		rads_edt.value = rads.toPrecision(PREC);
+
+		setAngle("rads_edt");
 	}
 	
 	B_edt = document.getElementById("B_edt");
 	B_edt.onchange = function(e)
 	{
-		setSide(e.target.id);
+		B = B_edt.value;
+		
+		rads = Math.acos(B/C);
+		rads_edt.value = rads.toPrecision(PREC);
+
+		setAngle("rads_edt");
 	}
 	
 	C_edt = document.getElementById("C_edt");
 	C_edt.onchange = function(e)
 	{
-		setSide(e.target.id);
+		setSide();
 	}
 	
 	degs = 36.87;
@@ -110,7 +120,7 @@ function init()
 
 function graphIt()
 {
-	const r = 240, ra = 20;
+	const r = 240, ra = 60;
 	
 	var gi_x = x_center + (cos * r);
 	var gi_y = y_center - (sin * r);
@@ -139,10 +149,16 @@ function graphIt()
 	dc.stroke();
 
 	dc.lineWidth = 1;
+	dc.strokeStyle = "green";
 	
 	dc.beginPath();
 	dc.moveTo(x_center+r, y_center);
 	dc.arc(x_center, y_center, ra, 0, -rads, true);
+	dc.stroke();
+	
+	dc.beginPath();
+	dc.moveTo(gi_x, gi_y);
+	dc.lineTo(gi_x, y_center);
 	dc.stroke();
 }
 
@@ -262,9 +278,6 @@ function setInfo(sentby)
 			
 			sin = Math.sin(rads);
 			sin_edt.value = sin.toPrecision(PREC);
-			
-			break;
-		default:
 	}
 			
 	csc = 1 / sin;
@@ -363,9 +376,9 @@ function setSide()
 {
 	C = C_edt.value;
 
-	A = sin * C;
+	A = Math.abs(sin * C);
 	A_edt.value = A.toPrecision(PREC);
 	
-	B = cos * C;
+	B = Math.abs(cos * C);
 	B_edt.value = B.toPrecision(PREC);
 }
